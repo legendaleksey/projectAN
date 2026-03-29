@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 ошибок в понимании случайности</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Палитра Моранди */
+            --morandi-bg: #e8e3df;
+            --morandi-card: #f5f2ef;
+            --morandi-text: #5c5c5c;
+            --morandi-text-light: #8b8680;
+            --morandi-accent-1: #b8a99a;
+            --morandi-accent-2: #9caab9;
+            --morandi-accent-3: #a8b5a0;
+            --morandi-accent-4: #c4b8b0;
+            --morandi-accent-5: #a89f91;
+            --morandi-border: #d4cfc7;
+            --morandi-shadow: rgba(92, 92, 92, 0.08);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--morandi-bg);
+            min-height: 100vh;
+            color: var(--morandi-text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInDown 1s ease;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: var(--morandi-text);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: var(--morandi-text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .intro {
+            background: var(--morandi-card);
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 60px;
+            text-align: center;
+            border: 1px solid var(--morandi-border);
+            box-shadow: 0 4px 20px var(--morandi-shadow);
+            animation: fadeIn 1.2s ease;
+            position: relative;
+        }
+
+        .intro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--morandi-accent-1);
+        }
+
+        .intro p {
+            color: var(--morandi-text-light);
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .mistakes-grid {
+            display: grid;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .mistake-card {
+            background: var(--morandi-card);
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 20px var(--morandi-shadow);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: slideUp 0.6s ease forwards;
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid var(--morandi-border);
+        }
+
+        .mistake-card:nth-child(1) { animation-delay: 0.1s; }
+        .mistake-card:nth-child(2) { animation-delay: 0.2s; }
+        .mistake-card:nth-child(3) { animation-delay: 0.3s; }
+        .mistake-card:nth-child(4) { animation-delay: 0.4s; }
+        .mistake-card:nth-child(5) { animation-delay: 0.5s; }
+        .mistake-card:nth-child(6) { animation-delay: 0.6s; }
+        .mistake-card:nth-child(7) { animation-delay: 0.7s; }
+        .mistake-card:nth-child(8) { animation-delay: 0.8s; }
+        .mistake-card:nth-child(9) { animation-delay: 0.9s; }
+        .mistake-card:nth-child(10) { animation-delay: 1s; }
+
+        .mistake-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(92, 92, 92, 0.12);
+        }
+
+        .mistake-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--morandi-accent-1);
+            opacity: 0.6;
+        }
+
+        .mistake-card:nth-child(2)::before { background: var(--morandi-accent-2); }
+        .mistake-card:nth-child(3)::before { background: var(--morandi-accent-3); }
+        .mistake-card:nth-child(4)::before { background: var(--morandi-accent-4); }
+        .mistake-card:nth-child(5)::before { background: var(--morandi-accent-5); }
+        .mistake-card:nth-child(6)::before { background: var(--morandi-accent-1); }
+        .mistake-card:nth-child(7)::before { background: var(--morandi-accent-2); }
+        .mistake-card:nth-child(8)::before { background: var(--morandi-accent-3); }
+        .mistake-card:nth-child(9)::before { background: var(--morandi-accent-4); }
+        .mistake-card:nth-child(10)::before { background: var(--morandi-accent-5); }
+
+        .mistake-number {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            background: var(--morandi-accent-2);
+            color: var(--morandi-card);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 45px;
+            font-size: 1.3em;
+            font-weight: 400;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .mistake-title {
+            font-size: 1.4em;
+            color: var(--morandi-text);
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .mistake-content {
+            line-height: 1.8;
+            color: var(--morandi-text-light);
+            font-size: 1.05em;
+        }
+
+        .reality {
+            margin-top: 25px;
+            padding: 25px;
+            background: rgba(156, 170, 185, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid var(--morandi-accent-2);
+        }
+
+        .reality-label {
+            font-weight: 500;
+            color: var(--morandi-accent-2);
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .interactive-demo {
+            margin-top: 25px;
+            padding: 25px;
+            background: var(--morandi-bg);
+            border-radius: 6px;
+            border: 1px solid var(--morandi-border);
+        }
+
+        .demo-title {
+            font-size: 0.9em;
+            color: var(--morandi-text-light);
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .coin-container, .dice-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .coin, .dice {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--morandi-accent-1);
+            color: var(--morandi-card);
+            border: 2px solid transparent;
+        }
+
+        .coin:hover, .dice:hover {
+            transform: scale(1.05);
+            background: var(--morandi-accent-5);
+        }
+
+        .coin.heads, .coin.tails {
+            background: var(--morandi-accent-3);
+        }
+
+        .btn {
+            background: var(--morandi-accent-2);
+            color: var(--morandi-card);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            margin: 5px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background: var(--morandi-accent-5);
+            transform: translateY(-1px);
+        }
+
+        .stats {
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            background: var(--morandi-card);
+            padding: 20px;
+            border-radius: 4px;
+            border: 1px solid var(--morandi-border);
+            color: var(--morandi-text);
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--morandi-border);
+            border-radius: 3px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--morandi-accent-3);
+            transition: width 0.5s ease;
+            opacity: 0.7;
+        }
+
+        .conclusion {
+            background: var(--morandi-card);
+            border-radius: 8px;
+            padding: 50px;
+            text-align: center;
+            border: 1px solid var(--morandi-border);
+            box-shadow: 0 4px 20px var(--morandi-shadow);
+            animation: fadeIn 1.5s ease;
+        }
+
+        .conclusion h2 {
+            color: var(--morandi-text);
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .conclusion p {
+            font-size: 1.15em;
+            line-height: 1.9;
+            color: var(--morandi-text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .highlight {
+            background: rgba(184, 169, 154, 0.2);
+            padding: 2px 8px;
+            border-radius: 3px;
+            color: var(--morandi-text);
+            font-weight: 500;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chaos-visual {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.03;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--morandi-text);
+            border-radius: 50%;
+            animation: float 25s infinite linear;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(100vh) translateX(0);
+            }
+            to {
+                transform: translateY(-100vh) translateX(50px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .mistake-card { padding: 30px; }
+            .mistake-title { font-size: 1.2em; }
+            .container { padding: 40px 15px; }
+        }
+
+        .divider {
+            width: 40px;
+            height: 1px;
+            background: var(--morandi-accent-1);
+            margin: 30px auto;
+            opacity: 0.5;
+        }
+
+        .mistake-card:nth-child(even) .reality {
+            background: rgba(168, 181, 160, 0.1);
+            border-left-color: var(--morandi-accent-3);
+        }
+
+        .mistake-card:nth-child(even) .reality-label {
+            color: var(--morandi-accent-3);
+        }
+    </style>
+</head>
+<body>
+    <div class="chaos-visual" id="chaosContainer"></div>
+
+    <div class="container">
+        <header>
+            <h1>10 ошибок в понимании случайности</h1>
+            <p class="subtitle">Как наш мозг обманывает нас при работе с вероятностями и хаосом</p>
+            <div class="divider"></div>
+        </header>
+
+        <div class="intro">
+            <p>Случайность часто кажется хаотичной и непонятной. Из-за этого люди нередко делают неправильные выводы о вероятности событий. Ниже приведены самые распространённые ошибки мышления.</p>
+        </div>
+
+        <div class="mistakes-grid">
+            <!-- Ошибка 1 -->
+            <div class="mistake-card">
+                <div class="mistake-number">1</div>
+                <h3 class="mistake-title">Случайность означает отсутствие причин</h3>
+                <div class="mistake-content">
+                    <p>Многие думают, что случайные события происходят без причин.</p>
+                    <div class="reality">
+                        <span class="reality-label">На самом деле</span>
+                        Причины есть всегда, но их слишком много или они слишком сложны, чтобы точно учесть. «Случайность» — это просто наше незнание всех факторов.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ошибка 2 -->
+            <div class="mistake-card">
+                <div class="mistake-number">2</div>
+                <h3 class="mistake-title">Одно случайное событие можно точно предсказать</h3>
+                <div class="mistake-content">
+                    <p>Люди пытаются угадать конкретный результат броска монеты или кости.</p>
+                    <div class="reality">
+                        <span class="reality-label">На самом деле</span>
+                        Отдельный результат случайного события предсказать невозможно. Математика работает не с точным результатом, а с вероятностью.
+                    </div>
+                    <div class="interactive-demo">
+                        <div class="demo-title">Интерактив: Бросьте монету</div>
+                        <div class="coin-container" id="coinContainer">
+                            <div class="coin" onclick="flipCoin(this)">?</div>
+                        </div>
+                        <button class="btn" onclick="addCoin()">+ Добавить монету</button>
+                        <button class="btn" onclick="flipAllCoins()">Бросить все</button>
+                        <div class="stats" id="coinStats">Орёл: 0 | Решка: 0 | Всего бросков: 0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ошибка 3 -->
+            <div class="mistake-card">
+                <div class="mistake-number">3</div>
+                <h3 class="mistake-title">По нескольким наблюдениям можно сделать точный вывод</h3>
+                <div class="mistake-content">
+                    <p>Иногда люди делают выводы на основе 5-10 наблюдений.</p>
+                    <div class="reality">
+                        <span class="reality-label">На самом деле</span>
+                        Закономерности проявляются только при большом числе повторений. Закон больших чисел работает только на дистанции.
+                    </div>
+                    <div class="interactive-demo">
+                        <div class="demo-title">Демонстрация: Монетка при большом числе бросков</div>
+                        <button class="btn" onclick="simulateLongRun()">Симулировать 1000 бросков</button>
+                        <div class="stats" id="longRunStats">Нажмите кнопку для запуска симуляции</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ошибка 4 -->
+            <div class="mistake-card">
+                <div class="mistake-number">4</div>
+                <h3 class="mistake-title">Случайные события должны чередоваться</h3>
+                <div class="mistake-content">
+                    <p>Люди думают, что если несколько раз подряд выпал один результат, следующий обязательно будет другим.</p>
+                    <div class="reality">
+                        <span class="reality-label">На самом деле</span>
+                        Вероятность остаётся той же. Монетка не «помнит» предыдущие броски. Последовательность ОООООР так же вероятна, как ОРОРОР.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ошибка 5 -->
+            <div class="mistake-card">
+                <div class="mistake-number">5</div>
+                <h3 class="mistake-title">Случайные последовательности не должны иметь повторов</h3>
+                <div class="mistake-content">
+                    <p>Человеку кажется, что повторяющиеся результаты выглядят «не случайно».</p>
+                    <div class="reality">
+                        <span class="reality-label">На самом деле</span>
+                        В настоящих случайных последовательностях повторы не только возможны, но и неизбежны. Кластеризация — естественное свойство случайности.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ошибка 6 -->
+            <div class="mistake-card">
+                <div class="mistake-number">6</div>
+                <h3 class="mistake-title">Ошибка игрока </h3>
+                <div class="mistake-content">
+                    <p>Человек считает, что предыдущие результаты влияют на будущие. Если в рулетке несколько раз подряд выпало красное, должно выпасть чёрное.</p>
+                    <div class="reality">
+                        <span class="reality-label">На самом деле</span>
+                        Каждое вращение рулетки — независимое событие. Вероятность чёрного не увеличивается после серии красных. Монета или рулетка не имеют памяти — они не «знают», что выпадало раньше, и не стремятся к «балансу» в краткосрочной перспективе.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ошибка 7 -->
+            <div class="mistake-card">
+                <div class="mistake-number">7</div>
+                <h3 class="mistake-title">Азартные игры можно обыграть системой ставок</h3>
+                <div class="mistake-content">
+                    <p>Некоторые считают, что существуют стратегии (Мартингейл, Д'Аламбер), которые гарантируют выигрыш.</p>
+                    <div class="reality">
+                        <span class="reality-label">На самом деле</span>
+                        Математическое ожидание в азартных играх отрицательное для игрока. Системы ставок не меняют математического ожидания, они только меняют распределение риска. Даже при «благоприятной» стратегии вероятность потери растёт с увеличением числа игр.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ошибка 8 -->
+            <div class="mistake-card">
+                <div class="mistake-number">8</div>
+                <h3 class="mistake-title">Компьютерные случайные числа полностью случайны</h3>
+                <div class="mistake-content">
+                    <p>Пользователи думают, что rand() в программировании даёт истинную случайность.</p>
+                    <div class="reality">
+                        <span class="reality-label">На самом деле</span>
+                        Компьютеры используют псевдослучайные числа — последовательности, создаваемые алгоритмами. Они выглядят случайными, но вычисляются по формуле (например, метод: next = (a × prev + c) mod m) и периодически повторяются. При том же начальном значении (seed) последовательность будет идентичной.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ошибка 9 -->
+            <div class="mistake-card">
+                <div class="mistake-number">9</div>
+                <h3 class="mistake-title">Прогноз погоды должен быть точным</h3>
+                <div class="mistake-content">
+                    <p>Люди разочаровываются, когда прогноз погоды на неделю вперёд оказывается неточным.</p>
+                    <div class="reality">
+                        <span class="reality-label">На самом деле</span>
+                        Погода — сложная хаотическая система. Долгосрочные прогнозы всегда имеют погрешность из-за чувствительности к начальным условиям.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ошибка 10 -->
+            <div class="mistake-card">
+                <div class="mistake-number">10</div>
+                <h3 class="mistake-title">Маленькие изменения не влияют на систему</h3>
+                <div class="mistake-content">
+                    <p>Кажется, что небольшие отклонения в начальных условиях дают небольшие отклонения в результате.</p>
+                    <div class="reality">
+                        <span class="reality-label">На самом деле</span>
+                        В хаотических системах даже крошечные изменения могут привести к катастрофически большим последствиям. Это явление известно как <span class="highlight">эффект бабочки</span>. Система демонстрирует экспоненциальное расхождение траекторий при минимальных отличиях в начальных условиях.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>Вывод</h2>
+            <div class="divider"></div>
+            <p>Понимание случайности и вероятности помогает лучше объяснять происходящие события, избегать ошибок мышления и принимать более рациональные решения. <br><br>
+            <span class="highlight">Случайность не означает непредсказуемость в принципе — она означает предсказуемость в масштабе и непредсказуемость в деталях.</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Создание частиц на фоне
+        function createParticles() {
+            const container = document.getElementById('chaosContainer');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 25 + 's';
+                particle.style.animationDuration = (20 + Math.random() * 15) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Статистика монет
+        let coinStats = { heads: 0, tails: 0, total: 0 };
+
+        function flipCoin(element) {
+            const isHeads = Math.random() < 0.5;
+            element.style.transform = 'scale(0.9)';
+            element.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                element.textContent = isHeads ? 'О' : 'Р';
+                element.style.transform = 'scale(1)';
+                element.style.opacity = '1';
+                element.style.background = 'var(--morandi-accent-3)';
+                
+                if (isHeads) coinStats.heads++; else coinStats.tails++;
+                coinStats.total++;
+                updateCoinStats();
+            }, 200);
+        }
+
+        function addCoin() {
+            const container = document.getElementById('coinContainer');
+            const coin = document.createElement('div');
+            coin.className = 'coin';
+            coin.onclick = function() { flipCoin(this); };
+            coin.textContent = '?';
+            container.appendChild(coin);
+        }
+
+        function flipAllCoins() {
+            const coins = document.querySelectorAll('.coin');
+            coins.forEach((coin, index) => {
+                setTimeout(() => flipCoin(coin), index * 80);
+            });
+        }
+
+        function updateCoinStats() {
+            const stats = document.getElementById('coinStats');
+            const headsPercent = coinStats.total > 0 ? ((coinStats.heads / coinStats.total) * 100).toFixed(1) : 0;
+            const tailsPercent = coinStats.total > 0 ? ((coinStats.tails / coinStats.total) * 100).toFixed(1) : 0;
+            stats.innerHTML = `Орёл: ${coinStats.heads} (${headsPercent}%) | Решка: ${coinStats.tails} (${tailsPercent}%) | Всего: ${coinStats.total}`;
+        }
+
+        // Симуляция большого числа бросков
+        function simulateLongRun() {
+            const stats = document.getElementById('longRunStats');
+            const progress = document.getElementById('progressFill');
+            let heads = 0;
+            let total = 0;
+            const target = 1000;
+            
+            stats.innerHTML = 'Симуляция запущена...';
+            
+            const interval = setInterval(() => {
+                const batch = 10;
+                for (let i = 0; i < batch; i++) {
+                    if (Math.random() < 0.5) heads++;
+                    total++;
+                }
+                
+                const percent = (total / target) * 100;
+                progress.style.width = percent + '%';
+                
+                if (total >= target) {
+                    clearInterval(interval);
+                    const headsPercent = ((heads / target) * 100).toFixed(2);
+                    stats.innerHTML = `Результат: Орёл выпал ${heads} раз (${headsPercent}%)<br>Теоретически: 50% | Отклонение: ${Math.abs(50 - headsPercent).toFixed(2)}%`;
+                }
+            }, 20);
+        }
+    </script>
+</body>
+</html>
